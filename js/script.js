@@ -18,6 +18,7 @@ FSJS project 2 - List Filter and Pagination
 ***/
 // const studentListItem = document.getElementsByClassName(''); 
 // const pageItems10 = document.getElementsByClassName(''); 
+   
 
 
 
@@ -42,38 +43,64 @@ function showPage(list, page){
    let startIndex = (page * 10 ) - 10;
    let endIndex = page * 10;
 
-   // 
    for( var i = 0; (i >= startIndex) && (i <= endIndex); i++ ){
 
    }
    console.log(i);
+
+//if there are three or more pages show start and end buttons
+if (endIndex > 20 ){
+   startAndEnd()
+}
+
 }
 
 
 // create function that adds start and end buttons either side of the pagination links 
 function startAndEnd(){
-   const startButton = document.createElement('BUTTON');
-   const endButton = document.createElement('BUTTON');
-
-
+   let page = document.getElementsByTagName('div')[0];
+   let startButton = document.createElement('div');
+   startButton.className = 'scrollListButton';
+   startButton.innerHTML = 'you Done IT';
+   let endButton = document.createElement('button');
+   endButton.className = 'scrollListButton';
+   
+   page.appendChild(startButton);
+   page.appendChild(endButton);
 }
+
 
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
-function appendPageLinks(i) {
+// function appendPageLinks(i) {
 
-   var pageLink = i;
-   var paginationButton = document.createElement('div');
-   var page = document.getElementsByClassName('page');
-   page.appendChild(paginationButton);
-   console.log(i);
-}
+//    var pageLink = i;
+//    var paginationButton = document.createElement('div');
+//    var page = document.getElementsByClassName('page');
+//    page.appendChild(paginationButton);
+//    console.log(i);
+// }
 
 
 
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+// rmember to delete the comments that came with this file, and replace them with your own code comments.
 
-// create function to search an array of elements.
+// create a function that creates a search feild and button thats linked to it
+
+// create function that grabs html and creates an array of objects that holds
+//student name 
+//joined date 
+//email
+
+/**
+ students [
+	 {
+      name: ,
+      joined: ,
+      email: ,
+	 },
+ ]
+ */
