@@ -1,106 +1,164 @@
-/******************************************
-Treehouse Techdegree:
-FSJS project 2 - List Filter and Pagination
-******************************************/
-   
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
+/*
+Things I Still Need To Do
+1) &#10003 make sure that the programe enters at page one
+2)  connect the left and right buttons
+3)  add the search bar logic
+4) &#10003 add the active class to the pagination buttons
+*/
+var studentListItem = document.querySelectorAll('.student-item'); 
+const page = document.getElementsByClassName("page")[0];
+console.log(page)
+
+console.log("the amount of students is " + studentListItem.length);
+
+const appendPageLinks = (studentListItem, page) => {
+  let pageDiv = document.createElement('div');
+  page.appendChild(pageDiv);
+  pageDiv.className = 'pagination';
+  let pageUl = document.createElement('ul');
+  pageUl.className = 'paginationUl';
+  pageDiv.appendChild(pageUl);
+  let howManyPages = Math.ceil((studentListItem.length + 1) / 10);
+
+  console.log("the amount of pages is " + howManyPages);
+
+  for (let i = 1; i < (howManyPages + 1); i++){
+    appendPageLink(i);
+  }
+  if(howManyPages > 3){
+    appendStartEndArrows();
+  }
+}
+
+function appendPageLink(howManyPages){
+  let grabUl = document.getElementsByClassName('paginationUl')[0];
+  let li = document.createElement('li');
+  li.className = "paginationNumButton"
+  grabUl.appendChild(li);
+  let a = document.createElement('a');
+  li.appendChild(a);
+  a.innerHTML = howManyPages;
+}
+
+appendPageLinks(studentListItem, page);
+
+function appendStartEndArrows(){
+  let grabUl = document.getElementsByClassName('paginationUl')[0];
+  let theFirstChild = grabUl.firstChild;
+  let startButtonLi = document.createElement('li');
+  let startButtonA = document.createElement('a');
+  startButtonLi.className = 'scrollListButton leftButton';
+  startButtonA.innerHTML = '<';
+  let endButtonLi = document.createElement('li');
+  let endButtonA = document.createElement('a');
+  endButtonLi.className = 'scrollListButton rightButton';
+  endButtonA.innerHTML = '>';
+  grabUl.insertBefore(startButtonLi,theFirstChild)
+  startButtonLi.appendChild(startButtonA);
+  grabUl.appendChild(endButtonLi);
+  endButtonLi.appendChild(endButtonA);
+}
+
+const  appendSearchBar = () => {
+  let pageHeader = document.getElementsByClassName('page-header cf')[0];
+  let inputSearch = document.createElement('INPUT');
+  pageHeader.appendChild(inputSearch); 
+  inputSearch.setAttribute("placeholder", "  Student Name...") 
+  inputSearch.className = 'student-search';
+}
+
+appendSearchBar();
 
 
-/*** 
-   Add your global variables that store the DOM elements you will 
-   need to reference and/or manipulate. 
-   
-   But be mindful of which variables should be global and which 
-   should be locally scoped to one of the two main functions you're 
-   going to create. A good general rule of thumb is if the variable 
-   will only be used inside of a function, then it can be locally 
-   scoped to that function.
-***/
-// const studentListItem = document.getElementsByClassName(''); 
-// const pageItems10 = document.getElementsByClassName(''); 
-   
+const showPage = (endIndex, parseIntE, e ) => {
 
-
-
-/*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
-
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
-***/
-
-// function showPage needs to return elements to be appended to the div element on the page 
-// each element should be 1-10 11-20 20-21 30+ 
-function showPage(list, page){
-   let startIndex = (page * 10 ) - 10;
-   let endIndex = page * 10;
-
-   for( var i = 0; (i >= startIndex) && (i <= endIndex); i++ ){
-
+  //   let endIndex = (parseIntE * 10) - 1;
+  let startIndex = endIndex - 9;
+  //  console.log(lastPageValue);
+if(isNaN(parseIntE)){
+   if (e.target.innerHTML == "&lt;"){
+       endIndex -= 10;
+      let startIndex = endIndex - 9;
+      loopNodeList(endIndex, startIndex);
+   console.log(endIndex, 2);   
    }
-   console.log(i);
+   else if(e.target.innerHTML == "&gt;"){
+         endIndex += 10 ;
+     loopNodeList(endIndex);
+   console.log(endIndex, 3);   
+   } 
+} 
+else {
+      loopNodeList(endIndex);
+   console.log(endIndex, 1);   
+   }
+ 
+  function loopNodeList(endIndex){
+      let startIndex = endIndex - 9;
+      for (var i=0; i < startIndex ;i+=1){
+         if (i < startIndex ){
+         studentListItem[i].style.display = 'none';
+      }
+   }
+      for (var i = endIndex; i < studentListItem.length ;i += 1){
+         if (i > endIndex){
+      studentListItem[i].style.display = 'none';
+      }
+    }
+  }
+}
+// let pageDiv = document.getElementByTagName('DIV')[0][1];
 
-//if there are three or more pages show start and end buttons
-if (endIndex > 20 ){
-   startAndEnd()
+
+//could be the way to do it ............. 
+var pageDiv = document.getElementsByClassName('paginationNumButton');
+for (var i = 0; i < pageDiv.length; i++) {
+  pageDiv[i].addEventListener('click', showPage);
 }
 
-}
-
-
-// create function that adds start and end buttons either side of the pagination links 
-function startAndEnd(){
-   let page = document.getElementsByTagName('div')[0];
-   let startButton = document.createElement('div');
-   startButton.className = 'scrollListButton';
-   startButton.innerHTML = 'you Done IT';
-   let endButton = document.createElement('button');
-   endButton.className = 'scrollListButton';
-   
-   page.appendChild(startButton);
-   page.appendChild(endButton);
-}
-
-
-
-/*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
-***/
-// function appendPageLinks(i) {
-
-//    var pageLink = i;
-//    var paginationButton = document.createElement('div');
-//    var page = document.getElementsByClassName('page');
-//    page.appendChild(paginationButton);
-//    console.log(i);
+// function printDetails(e) {
+//   console.log("Clicked " + this.id);
 // }
+/* page.addEventListener('click', (e) => {
+  let parseIntE = parseInt(e.target.innerHTML);
+  let endIndex = (parseIntE * 10) - 1;
+  let grabUl = document.getElementsByClassName('paginationNumButton');
+  for (var i=0; i < grabUl.length ;i+=1){
+    grabUl[i].firstChild.classList.remove("active");
+  }
+  e.target.className = 'active';
+  for (var i = 0; i < studentListItem.length ;i+=1){
+  studentListItem[i].style.display = '';
 
-
-
-// rmember to delete the comments that came with this file, and replace them with your own code comments.
-
-// create a function that creates a search feild and button thats linked to it
-
-// create function that grabs html and creates an array of objects that holds
-//student name 
-//joined date 
-//email
-
-/**
- students [
-	 {
-      name: ,
-      joined: ,
-      email: ,
-	 },
- ]
+ console.log(e.target.innerHTML);
+}  
+   showPage(endIndex, parseIntE, e);
+});
  */
+window.onload = (e) => {
+   let parseIntE = -1;
+   showPage(10, parseIntE);
+   console.log('page is fully loaded');
+ };
+
+function searchBarLogic(){
+  // steal logic from w3 schools remember this is set up to work from an inline function call.    // Declare variables
+    var inputSearch, filter, ul, li, a, i, txtValue;
+    inputSearch = document.getElementByClassName('student-search');
+    filter = inputSearch.value.toUpperCase();
+    ul = document.getElementsByClassName("student-list");
+    li = ul.getElementsByTagName('li');
+  
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("a")[0];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+  }
+
+
