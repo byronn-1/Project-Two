@@ -1,14 +1,16 @@
 /*
 Things I Still Need To Do
-1) &#10003 make sure that the programe enters at page one
+1) &#10003 make sure that the programme enters at page one
 2)  connect the left and right buttons
 3)  add the search bar logic
 4) &#10003 add the active class to the pagination buttons
+5) check to see if "if" statments are acurate enough
 */
 var studentListItem = document.querySelectorAll('.student-item'); 
 const page = document.getElementsByClassName("page")[0];
 console.log(page)
-
+var X = 0;
+var F = 0;
 console.log("the amount of students is " + studentListItem.length);
 
 const appendPageLinks = (studentListItem, page) => {
@@ -69,52 +71,160 @@ const  appendSearchBar = () => {
 
 appendSearchBar();
 
+function openingPage(){
+var studentListItem = document.querySelectorAll('.student-item'); 
+var endIndex = 9;
+  for (var i = endIndex; i < studentListItem.length ;i += 1){
+    if (i > endIndex){
+ studentListItem[i].style.display = 'none';
+ }
+}
+}
+function showPage(e){
+var pageDiv = document.getElementsByClassName('paginationNumButton');
+  let parseIntE = parseInt(e.target.innerHTML);
+  let endIndex = (parseIntE * 10) - 1;
+  F = 0;
 
-const showPage = (endIndex, parseIntE, e ) => {
+   for (var i=0; i < pageDiv.length ; i+=1){
+    pageDiv[i].firstChild.classList.remove("active");
 
-  //   let endIndex = (parseIntE * 10) - 1;
-  let startIndex = endIndex - 9;
-  //  console.log(lastPageValue);
-if(isNaN(parseIntE)){
-   if (e.target.innerHTML == "&lt;"){
-       endIndex -= 10;
-      let startIndex = endIndex - 9;
-      loopNodeList(endIndex, startIndex);
-   console.log(endIndex, 2);   
-   }
-   else if(e.target.innerHTML == "&gt;"){
-         endIndex += 10 ;
-     loopNodeList(endIndex);
-   console.log(endIndex, 3);   
-   } 
-} 
-else {
-      loopNodeList(endIndex);
-   console.log(endIndex, 1);   
-   }
- 
+  }
+  e.target.classList = 'active';
+
+  loopNodeList(endIndex);
+
   function loopNodeList(endIndex){
+  var studentListItem = document.getElementsByClassName('student-item cf'); 
+  for (var i = 0; i < studentListItem.length; i +=1 ){
+    if( studentListItem[i].style.display == 'none'){
+      studentListItem[i].style.display = '';
+    }
+  }
       let startIndex = endIndex - 9;
       for (var i=0; i < startIndex ;i+=1){
          if (i < startIndex ){
          studentListItem[i].style.display = 'none';
-      }
-   }
+    }
+  }
       for (var i = endIndex; i < studentListItem.length ;i += 1){
          if (i > endIndex){
       studentListItem[i].style.display = 'none';
       }
     }
+    console.log(startIndex);
+    console.log(endIndex);
   }
 }
 // let pageDiv = document.getElementByTagName('DIV')[0][1];
 
+function shiftPageLeftRight(e, F){
+  var studentListItem = document.getElementsByClassName('student-item cf'); 
 
+// dont set active to the left right buttons just put a css fade on
+// needs to add one to the active class also
+console.log(X)
+if(F = 0){
+if(e.target.innerHTML == '&gt;'){
+  let endIndex = ((X * 10) - 1) + 10;
+  for (var i = 0; i < studentListItem.length; i +=1 ){
+    if( studentListItem[i].style.display == 'none'){
+      studentListItem[i].style.display = '';
+    }
+  }
+      let startIndex = endIndex - 9;
+      for (var i=0; i < startIndex ;i+=1){
+         if (i < startIndex ){
+         studentListItem[i].style.display = 'none';
+    }
+  }
+      for (var i = endIndex; i < studentListItem.length ;i += 1){
+         if (i > endIndex){
+      studentListItem[i].style.display = 'none';
+      }
+    }
+}else{
+  let endIndex = ((X * 10) - 1) -10;
+  for (var i = 0; i < studentListItem.length; i +=1 ){
+    if( studentListItem[i].style.display == 'none'){
+      studentListItem[i].style.display = '';
+    }
+  }
+      let startIndex = endIndex - 9;
+      for (var i=0; i < startIndex ;i+=1){
+         if (i < startIndex ){
+         studentListItem[i].style.display = 'none';
+    }
+  }
+      for (var i = endIndex; i < studentListItem.length ;i += 1){
+         if (i > endIndex){
+      studentListItem[i].style.display = 'none';
+      }
+    }
+}
+}else{
+  X += 1;
+  if(e.target.innerHTML == '&gt;'){
+    let endIndex = ((X * 10) - 1) + 10;
+    for (var i = 0; i < studentListItem.length; i +=1 ){
+      if( studentListItem[i].style.display == 'none'){
+        studentListItem[i].style.display = '';
+      }
+    }
+        let startIndex = endIndex - 9;
+        for (var i=0; i < startIndex ;i+=1){
+           if (i < startIndex ){
+           studentListItem[i].style.display = 'none';
+      }
+    }
+        for (var i = endIndex; i < studentListItem.length ;i += 1){
+           if (i > endIndex){
+        studentListItem[i].style.display = 'none';
+        }
+      }
+  }else{
+    let endIndex = ((X * 10) - 1) -10;
+    for (var i = 0; i < studentListItem.length; i +=1 ){
+      if( studentListItem[i].style.display == 'none'){
+        studentListItem[i].style.display = '';
+      }
+    }
+        let startIndex = endIndex - 9;
+        for (var i=0; i < startIndex ;i+=1){
+           if (i < startIndex ){
+           studentListItem[i].style.display = 'none';
+      }
+    }
+        for (var i = endIndex; i < studentListItem.length ;i += 1){
+           if (i > endIndex){
+        studentListItem[i].style.display = 'none';
+        }
+      }
+  }
+}
+ return F + 1
+ 
+}
+console.log(F)
 //could be the way to do it ............. 
 var pageDiv = document.getElementsByClassName('paginationNumButton');
 for (var i = 0; i < pageDiv.length; i++) {
-  pageDiv[i].addEventListener('click', showPage);
+  pageDiv[i].addEventListener('click',  function(e){
+    showPage(e, studentListItem);
+    X = parseInt(e.target.innerHTML);
+  });
 }
+var pageLeftRight = document.getElementsByClassName('scrollListButton');
+for (var i = 0; i < pageLeftRight.length; i++){
+  pageLeftRight[i].addEventListener('click', function(e){
+    F = 
+    shiftPageLeftRight(e, F);
+    console.log(e.target.innerHTML);
+    
+  });
+}
+
+
 
 // function printDetails(e) {
 //   console.log("Clicked " + this.id);
@@ -135,9 +245,9 @@ for (var i = 0; i < pageDiv.length; i++) {
    showPage(endIndex, parseIntE, e);
 });
  */
-window.onload = (e) => {
-   let parseIntE = -1;
-   showPage(10, parseIntE);
+window.onload = () => {
+  //  let parseIntE = -1;
+   openingPage();
    console.log('page is fully loaded');
  };
 
@@ -161,4 +271,22 @@ function searchBarLogic(){
     }
   }
 
-
+  // let startIndex = endIndex - 9;
+  // let grabUl = document.getElementsByClassName('scrollListButton');
+  // if(isNaN(parseIntE)){
+  //    if (e.target.innerHTML == "&lt;"){
+  //        endIndex -= 10;
+  //       let startIndex = endIndex - 9;
+  //       loopNodeList(endIndex, startIndex);
+  //    console.log(endIndex, 2);   
+  //    }
+  //    else if(e.target.innerHTML == "&gt;"){
+  //          endIndex += 10 ;
+  //      loopNodeList(endIndex);
+  //    console.log(endIndex, 3);   
+  //    } 
+  // } 
+  // else {
+  //     loopNodeList(endIndex);
+  //  console.log(endIndex, 1);   
+  //  }
